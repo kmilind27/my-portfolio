@@ -44,13 +44,20 @@
   color: var(--text-muted);
   line-height: 1.9;
   margin-bottom: 1rem;
+  max-width: 60ch;
+}
+
+.divider {
+  width: 60px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent), transparent);
+  margin: 1.5rem 0 1.8rem 0;
 }
 
 .stats {
   display: flex;
   gap: 2rem;
   flex-wrap: wrap;
-  margin-top: 2rem;
 }
 
 .statItem {
@@ -67,6 +74,13 @@
 .statLabel {
   font-size: 0.85rem;
   color: var(--text-muted);
+  margin-bottom: 0.15rem;
+}
+
+.statSublabel {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  opacity: 0.6;
 }
 
 .eduHeading {
@@ -133,5 +147,20 @@
 @media (max-width: 768px) {
   .grid {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .stats {
+    gap: 1.5rem;
+    justify-content: space-between;
+  }
+  
+  .statNum {
+    font-size: 1.5rem;
+  }
+  
+  .textBlock p {
+    font-size: 0.95rem;
   }
 }

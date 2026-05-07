@@ -98,4 +98,22 @@
   .links {
     display: none;
   }
+  
+  .ctaBtn {
+    padding: 0.5rem 0.7rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .nav {
+    padding: 0.6rem 4vw;
+  }
+  
+  .logo {
+    font-size: 1.1rem;
+  }
+  
+  .ctaBtns {
+    gap: 0.4rem;
+  }
 }

@@ -1,6 +1,6 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
-import { Rocket, Mail, GitFork } from 'lucide-react';
+import { Rocket, Mail, Download, ChevronDown } from 'lucide-react';
 import { personal } from '../../data';
 import styles from './Hero.module.css';
 
@@ -15,6 +15,42 @@ function MagneticBtn({ children, className, href, target, rel }) {
   };
   const onLeave = () => gsap.to(ref.current, { x: 0, y: 0, duration: 0.5, ease: 'elastic.out(1, 0.4)' });
   return <a ref={ref} href={href} target={target} rel={rel} className={className} onMouseMove={onMove} onMouseLeave={onLeave}>{children}</a>;
+}
+
+const ROLES = ['Spring Boot Engineer', 'React Developer', 'Microservices Architect'];
+
+function TypedRole() {
+  const [text, setText] = useState('');
+  const [roleIdx, setRoleIdx] = useState(0);
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  useEffect(() => {
+    const current = ROLES[roleIdx];
+    const timeout = setTimeout(() => {
+      if (!isDeleting) {
+        if (text.length < current.length) {
+          setText(current.slice(0, text.length + 1));
+        } else {
+          setTimeout(() => setIsDeleting(true), 1500);
+        }
+      } else {
+        if (text.length > 0) {
+          setText(current.slice(0, text.length - 1));
+        } else {
+          setIsDeleting(false);
+          setRoleIdx((roleIdx + 1) % ROLES.length);
+        }
+      }
+    }, isDeleting ? 50 : 100);
+    return () => clearTimeout(timeout);
+  }, [text, roleIdx, isDeleting]);
+
+  return (
+    <span>
+      {text}
+      <span className={styles.cursor}>|</span>
+    </span>
+  );
 }
 
 export default function Hero() {
@@ -39,14 +75,17 @@ export default function Hero() {
       <div className={`${styles.glow} ${styles.glowRight}`} />
 
       <div className={styles.content}>
-        <div ref={tagRef} className={styles.tag}>👋 Available for opportunities</div>
+        <div ref={tagRef} className={styles.openToWork}>
+          <span className={styles.dot}></span>
+          Available for opportunities
+        </div>
 
         <h1 ref={nameRef} className={styles.name}>
           Hi, I&apos;m <span className={styles.nameAccent}>{personal.name}</span>
         </h1>
 
         <p ref={roleRef} className={styles.role}>
-          {personal.role}
+          <TypedRole />
         </p>
 
         <p ref={descRef} className={styles.desc}>
@@ -56,13 +95,13 @@ export default function Hero() {
         <div ref={btnsRef} className={styles.btns}>
           <MagneticBtn href="#projects" className={styles.btnPrimary}><Rocket size={15} /> View Projects</MagneticBtn>
           <MagneticBtn href="#contact"  className={styles.btnOutline}><Mail size={15} /> Get In Touch</MagneticBtn>
-          <MagneticBtn href={personal.github} target="_blank" rel="noreferrer" className={styles.btnOutline}><GitFork size={15} /> GitHub</MagneticBtn>
+          <MagneticBtn href="/resume.pdf" target="_blank" rel="noreferrer" className={styles.btnOutline}><Download size={15} /> Resume</MagneticBtn>
         </div>
       </div>
 
       <div className={styles.scrollHint}>
         <span>Scroll</span>
-        <div className={styles.scrollLine} />
+        <ChevronDown size={18} className={styles.scrollIcon} />
       </div>
     </section>
   );

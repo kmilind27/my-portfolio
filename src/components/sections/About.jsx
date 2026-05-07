@@ -51,11 +51,17 @@ export default function About() {
             When I&apos;m not coding, I enjoy exploring new technologies, contributing to open-source
             projects, and staying updated with the latest trends in AI and cloud computing.
           </p>
+          <div className={styles.divider} />
           <div className={styles.stats}>
-            {[['9+', 'Projects Built'], ['3+', 'Certifications'], ['3+', 'Years Coding']].map(([num, label]) => (
+            {[
+              ['10+', 'Projects Built', 'across 3 domains'],
+              ['3+', 'Certifications', 'cloud & full-stack'],
+              ['3+', 'Years Coding', 'production experience']
+            ].map(([num, label, sublabel]) => (
               <div key={label} className={styles.statItem}>
                 <div className={styles.statNum}>{num}</div>
                 <div className={styles.statLabel}>{label}</div>
+                <div className={styles.statSublabel}>{sublabel}</div>
               </div>
             ))}
           </div>

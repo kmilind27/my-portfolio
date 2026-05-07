@@ -1,25 +1,28 @@
 import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Coffee, Zap, Code2, Cpu, Database, Leaf, Atom, Link, Container, Rabbit, HardDrive, GitBranch } from 'lucide-react';
-import { skills } from '../../data';
 import styles from './Skills.module.css';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const skillIcons = {
-  'Java': <Coffee size={22} />,
-  'JavaScript': <Zap size={22} />,
-  'Python': <Code2 size={22} />,
-  'C++': <Cpu size={22} />,
-  'SQL': <Database size={22} />,
-  'Spring Boot': <Leaf size={22} />,
-  'React': <Atom size={22} />,
-  'REST APIs': <Link size={22} />,
-  'Docker': <Container size={22} />,
-  'RabbitMQ': <Rabbit size={22} />,
-  'MySQL': <HardDrive size={22} />,
-  'Git': <GitBranch size={22} />,
+const skillsData = {
+  'Languages': [
+    { name: 'Java', icon: 'openjdk', exp: '4 yrs', color: '#437291' },
+    { name: 'JavaScript', icon: 'javascript', exp: '3 yrs', color: '#F7DF1E' },
+    { name: 'Python', icon: 'python', exp: '2 yrs', color: '#3776AB' },
+    { name: 'C++', icon: 'cplusplus', exp: '2 yrs', color: '#00599C' },
+  ],
+  'Frameworks': [
+    { name: 'Spring Boot', icon: 'springboot', exp: 'Production', color: '#6DB33F' },
+    { name: 'React', icon: 'react', exp: 'Production', color: '#61DAFB' },
+    { name: 'Node.js', icon: 'nodedotjs', exp: '2 yrs', color: '#339933' },
+  ],
+  'DevOps & Tools': [
+    { name: 'Docker', icon: 'docker', exp: 'Production', color: '#2496ED' },
+    { name: 'Git', icon: 'git', exp: '4 yrs', color: '#F05032' },
+    { name: 'MySQL', icon: 'mysql', exp: '3 yrs', color: '#4479A1' },
+    { name: 'RabbitMQ', icon: 'rabbitmq', exp: 'Production', color: '#FF6600' },
+  ],
 };
 
 function TiltCard({ children, className }) {
@@ -59,7 +62,6 @@ export default function Skills() {
     const ctx = gsap.context(() => {
       const isMobile = window.innerWidth < 768;
 
-      // Title reveal
       gsap.fromTo(titleRef.current,
         { opacity: 0, y: 30, clipPath: 'inset(100% 0 0 0)' },
         { opacity: 1, y: 0, clipPath: 'inset(0% 0 0 0)', duration: 0.8, ease: 'power3.out',
@@ -71,20 +73,12 @@ export default function Skills() {
           scrollTrigger: { trigger: titleRef.current, start: 'top 88%' } }
       );
 
-      // Per-card scroll + bar animation
       gsap.utils.toArray(`.${styles.card}`).forEach((card) => {
         gsap.fromTo(card,
           { opacity: 0, y: isMobile ? 25 : 40, scale: 0.92 },
           { opacity: 1, y: 0, scale: 1, duration: 0.55, ease: 'back.out(1.4)',
             scrollTrigger: { trigger: card, start: 'top 90%' } }
         );
-        const fill = card.querySelector(`.${styles.fill}`);
-        if (fill) {
-          gsap.fromTo(fill, { width: '0%' },
-            { width: fill.dataset.level + '%', duration: 1.3, ease: 'power2.out',
-              scrollTrigger: { trigger: card, start: 'top 90%' } }
-          );
-        }
       });
     }, sectionRef);
     return () => ctx.revert();
@@ -97,18 +91,24 @@ export default function Skills() {
       <h2 className={styles.title} ref={titleRef}>Skills</h2>
       <p className={styles.subtitle} ref={subtitleRef}>Technologies I work with daily.</p>
 
-      <div className={styles.grid}>
-        {skills.map((skill) => (
-          <TiltCard key={skill.name} className={styles.card}>
-            <div className={styles.icon}>{skillIcons[skill.name] ?? skill.icon}</div>
-            <div className={styles.name}>{skill.name}</div>
-            <div className={styles.bar}>
-              <div className={styles.fill} data-level={skill.level} style={{ width: 0 }} />
-            </div>
-            <div className={styles.percent}>{skill.level}%</div>
-          </TiltCard>
-        ))}
-      </div>
+      {Object.entries(skillsData).map(([category, skills]) => (
+        <div key={category} className={styles.category}>
+          <div className={styles.categoryLabel}>{category}</div>
+          <div className={styles.grid}>
+            {skills.map((skill) => (
+              <TiltCard key={skill.name} className={styles.card}>
+                <img 
+                  src={`https://cdn.simpleicons.org/${skill.icon}/${skill.color.slice(1)}`} 
+                  alt={skill.name}
+                  className={styles.icon}
+                />
+                <div className={styles.name}>{skill.name}</div>
+                <div className={styles.exp}>{skill.exp}</div>
+              </TiltCard>
+            ))}
+          </div>
+        </div>
+      ))}
     </section>
   );
 }

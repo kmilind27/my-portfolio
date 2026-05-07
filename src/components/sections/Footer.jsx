@@ -7,10 +7,6 @@ export default function Footer() {
       <p>
         Designed &amp; Built with ❤️ by{' '}
         <strong style={{ color: 'var(--accent)' }}>{personal.name}</strong>
-        &nbsp;·&nbsp;
-        <a href={personal.github}  target="_blank" rel="noreferrer" className={styles.link}>GitHub</a>
-        &nbsp;·&nbsp;
-        <a href={personal.linkedin} target="_blank" rel="noreferrer" className={styles.link}>LinkedIn</a>
       </p>
       <p className={styles.copy}>
         © {new Date().getFullYear()} {personal.name}. All rights reserved.

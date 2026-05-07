@@ -138,6 +138,55 @@
   font-size: 0.95rem;
 }
 
+.revealBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.8rem;
+  background: rgba(145, 94, 255, 0.15);
+  border: 1px solid rgba(145, 94, 255, 0.3);
+  border-radius: 6px;
+  color: var(--accent);
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.revealBtn:hover {
+  background: rgba(145, 94, 255, 0.25);
+  border-color: var(--accent);
+}
+
+.socialLinks {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.socialBtn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  padding: 1rem;
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: all 0.3s;
+}
+
+.socialBtn:hover {
+  border-color: var(--accent);
+  background: rgba(145, 94, 255, 0.1);
+  transform: translateY(-2px);
+}
+
 /* ── Form ── */
 .form {
   display: flex;
@@ -198,13 +247,48 @@
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.submitBtn:hover {
+.submitBtn:hover:not(:disabled) {
   transform: translateY(-2px);
   box-shadow: 0 12px 40px rgba(108, 99, 255, 0.5);
+}
+
+.submitBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.error {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.75rem 1rem;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: 8px;
+  color: #ef4444;
+  font-size: 0.85rem;
 }
 
 @media (max-width: 768px) {
   .grid {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .socialLinks {
+    flex-direction: column;
+  }
+  
+  .socialBtn {
+    width: 100%;
+  }
+  
+  .terminal {
+    margin-bottom: 1rem;
+  }
+  
+  .terminalBody {
+    font-size: 0.75rem;
   }
 }

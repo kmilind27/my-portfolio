@@ -60,10 +60,12 @@ function TorusRing({ position, color }) {
 
 function MovingPointLight() {
   const ref = useRef();
-  useFrame(({ clock }) => {
+  const t = useRef(0);
+  useFrame((_, delta) => {
     if (ref.current) {
-      ref.current.position.x = Math.sin(clock.elapsedTime * 0.4) * 8;
-      ref.current.position.y = Math.cos(clock.elapsedTime * 0.3) * 5;
+      t.current += delta;
+      ref.current.position.x = Math.sin(t.current * 0.4) * 8;
+      ref.current.position.y = Math.cos(t.current * 0.3) * 5;
     }
   });
   return <pointLight ref={ref} intensity={2} color="#915EFF" distance={20} />;

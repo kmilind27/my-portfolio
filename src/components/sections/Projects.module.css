@@ -39,6 +39,39 @@
   gap: 2rem;
 }
 
+.featured {
+  grid-column: span 2;
+}
+
+@media (max-width: 768px) {
+  .featured {
+    grid-column: span 1;
+  }
+  
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .header {
+    height: 140px;
+  }
+  
+  .blob {
+    width: 90px;
+    height: 90px;
+  }
+  
+  .body {
+    padding: 1.25rem;
+  }
+  
+  .projectTitle {
+    font-size: 1.15rem;
+  }
+}
+
 .card {
   background: var(--glass);
   border: 1px solid var(--glass-border);
@@ -59,26 +92,59 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 4rem;
   position: relative;
   overflow: hidden;
 }
 
-.emoji {
-  font-size: 5rem;
-  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.3));
+.blob {
+  width: 120px;
+  height: 120px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+  filter: blur(20px);
+  animation: blobMove 8s ease-in-out infinite;
+}
+
+@keyframes blobMove {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  33% { transform: translate(20px, -20px) rotate(120deg); }
+  66% { transform: translate(-20px, 20px) rotate(240deg); }
 }
 
 .body {
   padding: 1.5rem;
+  position: relative;
+}
+
+.featuredBadge {
+  position: absolute;
+  top: -12px;
+  right: 1.5rem;
+  padding: 0.3rem 0.8rem;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-radius: 50px;
+  box-shadow: 0 4px 12px rgba(145, 94, 255, 0.4);
 }
 
 .projectTitle {
   font-family: var(--font-display);
   font-size: 1.3rem;
   font-weight: 700;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.75rem;
   color: var(--text);
+}
+
+.outcome {
+  color: var(--accent);
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.6;
+  margin-bottom: 0.75rem;
 }
 
 .desc {
@@ -146,4 +212,18 @@
 .linkGithub:hover {
   border-color: var(--accent);
   color: var(--accent);
+}
+
+.inProgress {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  background: rgba(255, 165, 0, 0.1);
+  border: 1px solid rgba(255, 165, 0, 0.3);
+  color: #FFA500;
+  cursor: default;
 }

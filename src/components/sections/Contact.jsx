@@ -1,16 +1,30 @@
 import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Mail, Phone, MapPin, CheckCircle, Send, Terminal } from 'lucide-react';
+import emailjs from '@emailjs/browser';
+import { Mail, Phone, MapPin, CheckCircle, Send, Terminal, Eye, AlertCircle } from 'lucide-react';
 import { personal } from '../../data';
 import styles from './Contact.module.css';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const contactLinks = [
-  { icon: <Mail size={18} />,  label: 'Email',    value: personal.email,   href: `mailto:${personal.email}` },
-  { icon: <Phone size={18} />, label: 'Phone',    value: '+91 62034 67908', href: `tel:${personal.phone}` },
-  { icon: <MapPin size={18} />, label: 'Location', value: personal.location, href: null },
+const GithubIcon = ({ size = 24 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor">
+    <path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.464-1.11-1.464-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836a9.59 9.59 0 0 1 2.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.741 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/>
+  </svg>
+);
+
+const LinkedinIcon = ({ size = 24 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+    <rect x="2" y="9" width="4" height="12"/>
+    <circle cx="4" cy="4" r="2"/>
+  </svg>
+);
+
+const socialLinks = [
+  { icon: <GithubIcon size={24} />, label: 'GitHub', href: personal.github },
+  { icon: <LinkedinIcon size={24} />, label: 'LinkedIn', href: personal.linkedin },
 ];
 
 const TYPING_LINES = [
@@ -70,6 +84,9 @@ export default function Contact() {
   const subtitleRef = useRef();
   const [form, setForm] = useState({ name: '', email: '', message: '' });
   const [sent, setSent] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [error, setError] = useState('');
+  const [phoneRevealed, setPhoneRevealed] = useState(false);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -99,9 +116,31 @@ export default function Contact() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setSent(true);
-    setTimeout(() => setSent(false), 4000);
-    setForm({ name: '', email: '', message: '' });
+    setSending(true);
+    setError('');
+
+    emailjs.send(
+      import.meta.env.VITE_EMAILJS_SERVICE_ID,
+      import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+      {
+        from_name: form.name,
+        from_email: form.email,
+        message: `From: ${form.name} (${form.email})\n\nMessage:\n${form.message}`,
+        to_name: 'Kumar Milind',
+        reply_to: form.email
+      },
+      import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+    )
+    .then(() => {
+      setSent(true);
+      setForm({ name: '', email: '', message: '' });
+      setTimeout(() => setSent(false), 4000);
+    })
+    .catch((err) => {
+      console.error('EmailJS Error:', err);
+      setError('Failed to send. Please email directly.');
+    })
+    .finally(() => setSending(false));
   };
 
   return (
@@ -114,23 +153,45 @@ export default function Contact() {
       <div className={styles.grid}>
         <div className={styles.infoList}>
           <TerminalHeader />
-          {contactLinks.map((item) => (
-            item.href
-              ? <a key={item.label} href={item.href} className={styles.infoItem} target="_blank" rel="noreferrer">
-                  <span className={styles.infoIcon}>{item.icon}</span>
-                  <div>
-                    <div className={styles.infoLabel}>{item.label}</div>
-                    <div className={styles.infoValue}>{item.value}</div>
-                  </div>
-                </a>
-              : <div key={item.label} className={styles.infoItem}>
-                  <span className={styles.infoIcon}>{item.icon}</span>
-                  <div>
-                    <div className={styles.infoLabel}>{item.label}</div>
-                    <div className={styles.infoValue}>{item.value}</div>
-                  </div>
-                </div>
-          ))}
+          
+          <a href={`mailto:${personal.email}`} className={styles.infoItem}>
+            <span className={styles.infoIcon}><Mail size={18} /></span>
+            <div>
+              <div className={styles.infoLabel}>Email</div>
+              <div className={styles.infoValue}>{personal.email}</div>
+            </div>
+          </a>
+
+          <div className={styles.infoItem}>
+            <span className={styles.infoIcon}><Phone size={18} /></span>
+            <div>
+              <div className={styles.infoLabel}>Phone</div>
+              {phoneRevealed ? (
+                <div className={styles.infoValue}>+91 62034 67908</div>
+              ) : (
+                <button className={styles.revealBtn} onClick={() => setPhoneRevealed(true)}>
+                  <Eye size={14} /> Reveal number
+                </button>
+              )}
+            </div>
+          </div>
+
+          <div className={styles.infoItem}>
+            <span className={styles.infoIcon}><MapPin size={18} /></span>
+            <div>
+              <div className={styles.infoLabel}>Location</div>
+              <div className={styles.infoValue}>{personal.location}</div>
+            </div>
+          </div>
+
+          <div className={styles.socialLinks}>
+            {socialLinks.map((link) => (
+              <a key={link.label} href={link.href} className={styles.socialBtn} target="_blank" rel="noreferrer">
+                {link.icon}
+                <span>{link.label}</span>
+              </a>
+            ))}
+          </div>
         </div>
 
         <form className={styles.form} onSubmit={handleSubmit}>
@@ -149,9 +210,10 @@ export default function Contact() {
             <textarea id="message" placeholder="Tell me about your project..." value={form.message}
               onChange={(e) => setForm({ ...form, message: e.target.value })} required />
           </div>
-          <button type="submit" className={styles.submitBtn}>
-            {sent ? <><CheckCircle size={16} /> Message Sent!</> : <><Send size={16} /> Send Message</>}
+          <button type="submit" className={styles.submitBtn} disabled={sending || sent}>
+            {sent ? <><CheckCircle size={16} /> Message Sent!</> : sending ? <>Sending...</> : <><Send size={16} /> Send Message</>}
           </button>
+          {error && <div className={styles.error}><AlertCircle size={14} /> {error}</div>}
         </form>
       </div>
     </section>

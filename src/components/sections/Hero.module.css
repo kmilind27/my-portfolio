@@ -2,7 +2,7 @@
   min-height: 100vh;
   display: flex;
   align-items: center;
-  padding: 0 5vw;
+  padding: 80px max(80px, 5vw) 0;
   position: relative;
   overflow: hidden;
 }
@@ -32,18 +32,40 @@
 
 .content {
   max-width: 700px;
+  position: relative;
+  z-index: 10;
 }
 
-.tag {
-  display: inline-block;
-  padding: 0.4rem 1rem;
-  background: rgba(108, 99, 255, 0.15);
-  border: 1px solid rgba(108, 99, 255, 0.3);
-  border-radius: 50px;
-  font-size: 0.85rem;
-  color: var(--accent);
+.openToWork {
+  display: inline-flex !important;
+  align-items: center;
+  gap: 7px;
+  background: rgba(20, 241, 149, 0.25);
+  border: 2px solid #14F195;
+  border-radius: 20px;
+  padding: 8px 18px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #14F195;
   margin-bottom: 1.5rem;
-  font-weight: 500;
+  position: relative;
+  z-index: 999;
+  box-shadow: 0 0 30px rgba(20, 241, 149, 0.5), inset 0 0 10px rgba(20, 241, 149, 0.1);
+  text-shadow: 0 0 10px rgba(20, 241, 149, 0.5);
+}
+
+.dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #14F195;
+  animation: pulse 1.8s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.4; transform: scale(0.7); }
 }
 
 .name {
@@ -64,9 +86,20 @@
 
 .role {
   font-size: clamp(1.2rem, 3vw, 1.8rem);
-  color: var(--text-muted);
+  color: var(--accent);
   margin-bottom: 1.5rem;
-  font-weight: 400;
+  font-weight: 500;
+  min-height: 2.2rem;
+}
+
+.cursor {
+  color: var(--accent2);
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
 }
 
 .desc {
@@ -138,19 +171,73 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.4rem;
   color: var(--text-muted);
   font-size: 0.8rem;
-  animation: bounce 2s infinite;
+  cursor: pointer;
 }
 
-.scrollLine {
-  width: 1px;
-  height: 40px;
-  background: linear-gradient(to bottom, var(--accent), transparent);
+.scrollIcon {
+  animation: bounceIcon 2s infinite;
+  color: var(--accent);
 }
 
-@keyframes bounce {
-  0%, 100% { transform: translateX(-50%) translateY(0); }
-  50%       { transform: translateX(-50%) translateY(8px); }
+@keyframes bounceIcon {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(8px); }
+}
+
+@media (max-width: 768px) {
+  .section {
+    padding: 0 5vw 40px;
+  }
+  
+  .content {
+    padding-top: 70px;
+  }
+  
+  .btnPrimary, .btnOutline {
+    padding: 0.85rem 1.5rem;
+    font-size: 0.9rem;
+  }
+  
+  .desc {
+    font-size: 1rem;
+    line-height: 1.7;
+  }
+  
+  .scrollHint {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .section {
+    padding: 0 5vw 30px;
+  }
+  
+  .content {
+    padding-top: 65px;
+  }
+  
+  .openToWork {
+    font-size: 12px;
+    padding: 6px 14px;
+  }
+  
+  .btns {
+    width: 100%;
+  }
+  
+  .btnPrimary, .btnOutline {
+    flex: 1;
+    justify-content: center;
+    min-width: 140px;
+  }
+}
+
+@media (max-height: 700px) {
+  .scrollHint {
+    display: none;
+  }
 }

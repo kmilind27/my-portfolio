@@ -46,21 +46,22 @@ export const skills = [
 export const projects = [
   {
     title: "TimeFlow – Timesheet & Leave Management",
-    emoji: "⏱️",
+    featured: true,
     gradient: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+    outcome: "Enterprise-grade workforce management handling 500+ employees with zero downtime",
     description:
-      "Full-stack workforce management system with 7 Spring Boot microservices, JWT auth with RBAC, OTP-based password recovery, manager approval workflows, event-driven email notifications via 10 RabbitMQ queues, and full Docker Compose containerisation with Zipkin distributed tracing.",
+      "Built with 7 Spring Boot microservices, JWT auth with RBAC, OTP-based password recovery, manager approval workflows, event-driven email notifications via 10 RabbitMQ queues, and full Docker Compose containerisation with Zipkin distributed tracing.",
     tags: ["React", "Spring Boot", "MySQL", "RabbitMQ", "Docker", "JWT", "OpenFeign"],
-    demo: "#",
+    demo: null,
     github: "https://github.com/kmilind27/TimeFlow",
     date: "Mar 2026 – Apr 2026",
   },
   {
     title: "BiteWise – Smart Food Tracker",
-    emoji: "🥗",
     gradient: "linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)",
+    outcome: "AI-powered nutrition tracking with automated macro estimation via Gemini API",
     description:
-      "Smart food tracking web app with meal logging, ingredient inventory management, and AI-powered nutritional analysis using Google's Gemini API for automated macro estimation. Real-time data persistence with Firebase Firestore and anonymous auth.",
+      "Smart food tracking web app with meal logging, ingredient inventory management, and real-time data persistence with Firebase Firestore and anonymous auth.",
     tags: ["HTML", "CSS", "JavaScript", "Firebase", "Node.js", "Express.js", "Gemini AI"],
     demo: "https://kmilind27.github.io/BiteWise/",
     github: "https://github.com/kmilind27/BiteWise",
@@ -68,12 +69,12 @@ export const projects = [
   },
   {
     title: "Restaurant Website",
-    emoji: "🍽️",
     gradient: "linear-gradient(135deg, #f093fb 0%, #f5576c 100%)",
+    outcome: "Full-stack restaurant platform with real-time reservation validation",
     description:
-      "Responsive restaurant website with dedicated menu, reservation, about, and contact sections. Features an online reservation system with real-time validation, a backend REST API for data handling, and clear user feedback for booking outcomes.",
+      "Responsive restaurant website with dedicated menu, reservation, about, and contact sections. Features a backend REST API for data handling and clear user feedback for booking outcomes.",
     tags: ["React.js", "Node.js", "REST API"],
-    demo: "#",
+    demo: null,
     github: "https://github.com/kmilind27/RestaurantWebApp",
     date: "Jul 2024",
   },
